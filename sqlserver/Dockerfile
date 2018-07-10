@@ -1,4 +1,4 @@
-FROM  microsoft/mssql-server-linux:2017-latest
+FROM ubuntu:16.04
 MAINTAINER Vladimir Chirikov <vovanchig@gmail.com>
 
 # Let the conatiner know that there is no tty
@@ -15,17 +15,16 @@ RUN    mkdir -p /data/database \
        mkdir -p /data/backups \
     && chmod -R 755 /data 
 
-# RUN apt-get update && \
-#     apt-get install -y curl pwgen && \
-#     curl https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list | tee /etc/apt/sources.list.d/mssql-server.list && \
-#     apt-get update
-
 RUN apt-get update && \
     apt-get install -y curl pwgen sudo && \
+    apt-get install apt-transport-https && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list && \
-    apt-get update && \
-    apt-get install -y mssql-tools unixodbc-dev
+    curl https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list | tee /etc/apt/sources.list.d/mssql-server.list && \
+    apt-get update
+RUN apt-get install -y mssql-server
+RUN apt-get install -y mssql-server-fts
+RUN apt-get install -y mssql-tools unixodbc-dev 
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 
