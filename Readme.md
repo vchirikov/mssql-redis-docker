@@ -2,6 +2,8 @@
 
 This repo contains a simplest docker configuration for convenient developing.
 
+![screenshot](/img/intro.png)
+
 ## Before start
 
 1. Install [docker](https://docker.com)
